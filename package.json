@@ -1,0 +1,15 @@
+{
+  "name": "travis-ci-status",
+  "main": "./lib/travis-ci-status",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A short description of your package",
+  "activationEvents": ["travis-ci-status:toggle"],
+  "repository": "https://github.com/atom/travis-ci-status",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+  }
+}
