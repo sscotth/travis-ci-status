@@ -1,4 +1,5 @@
 TravisCiStatus = require '../lib/travis-ci-status'
+{WorkspaceView} = require 'atom'
 
 # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 #
@@ -10,7 +11,7 @@ describe "TravisCiStatus", ->
 
   beforeEach ->
     atom.workspaceView = new WorkspaceView
-    activationPromise = atom.packages.activatePackage('travisCiStatus')
+    activationPromise = atom.packages.activatePackage('travis-ci-status')
 
   describe "when the travis-ci-status:toggle event is triggered", ->
     it "attaches and then detaches the view", ->

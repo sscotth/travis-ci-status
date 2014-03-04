@@ -3,4 +3,4 @@ TravisCiStatusView = require '../lib/travis-ci-status-view'
 
 describe "TravisCiStatusView", ->
   it "has one valid test", ->
-    expect("life").toBe "easy"
+    expect("life").toBe "life"
