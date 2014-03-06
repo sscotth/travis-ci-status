@@ -12,7 +12,7 @@ class TravisCiStatusView extends View
   #
   # serializedState - The object containing key/value pairs of state data.
   initialize: (serializeState) ->
-    atom.workspaceView.command "travis-ci-status:toggle", => @toggle()
+    atom.workspaceView.command 'travis-ci-status:toggle', => @toggle()
 
   # Internal: Serialize the state of this view.
   #
