@@ -3,6 +3,35 @@ https = require 'https'
 module.exports =
 # Internal: Interacts with the Travis-CI API.
 class TravisCI
+  # Internal: Request the most recent build status for the repo.
+  #
+  # nwo      - The string repo owner and name.
+  # callback - The function callback that takes error and data arguments.
+  #
+  # Examples
+  #
+  #   travis.repo 'tombell/travis-ci-status',  (err, data) ->
+  #      ...
+  #
+  # Returns nothing.
+  repo: (nwo, callback) ->
+    @request('GET', "/repos/#{nwo}", callback)
+
+  # Internal: Request the specific build for the repo.
+  #
+  # nwo      - The string repo owner and name.
+  # id       - The number build ID.
+  # callback - The function callback that takes error and data arguments.
+  #
+  # Examples
+  #
+  #   travis.build 'tombell/travis-ci-status', 12345, (err, data) ->
+  #     ...
+  #
+  # Returns nothing.
+  build: (nwo, id, callback) ->
+    @request('GET', "/repos/#{nwo}/builds/#{id}", callback)
+
   # Internal: Make a request to the Travis-CI API, and return the response body
   # in the callback.
   #
