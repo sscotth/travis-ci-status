@@ -17,6 +17,7 @@ module.exports =
   #
   # Returns nothing.
   activate: (state) ->
+    return unless @isGitHubRepo()
     atom.travis = new TravisCi
     @travisCiStatusView = new TravisCiStatusView(state.travisCiStatusViewState)
 
@@ -24,6 +25,7 @@ module.exports =
   #
   # Returns nothing.
   deactivate: ->
+    return unless @isGitHubRepo()
     atom.travis = null
     @travisCiStatusView.destroy()
 
