@@ -1,10 +1,16 @@
 TravisCiStatus = require '../lib/travis-ci-status'
-{WorkspaceView} = require 'atom'
+{$, WorkspaceView, View} = require 'atom'
 
-# Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
-#
-# To run a specific `it` or `describe` block add an `f` to the front (e.g. `fit`
-# or `fdescribe`). Remove the `f` to unfocus the block.
+class StatusBarMock extends View
+  @content: ->
+    @div class: 'status-bar tool-panel panel-bottom', =>
+      @div outlet: 'leftPanel', class: 'status-bar-left'
+
+  attach: ->
+    atom.workspaceView.appendToTop(this)
+
+  appendLeft: (item) ->
+    @leftPanel.append(item)
 
 describe "TravisCiStatus", ->
   activationPromise = null
@@ -16,7 +22,9 @@ describe "TravisCiStatus", ->
     })
 
     atom.workspaceView = new WorkspaceView
-    activationPromise = atom.packages.activatePackage('travis-ci-status')
+    atom.workspaceView.statusBar = new StatusBarMock()
+    atom.workspaceView.statusBar.attach()
+    atom.packages.emit('activated')
 
   describe "when the travis-ci-status:toggle event is triggered", ->
     it "attaches and then detaches the view", ->
@@ -27,7 +35,7 @@ describe "TravisCiStatus", ->
       atom.workspaceView.trigger 'travis-ci-status:toggle'
 
       waitsForPromise ->
-        activationPromise
+        atom.packages.activatePackage('travis-ci-status')
 
       runs ->
         expect(atom.workspaceView.find('.travis-ci-status')).toExist()
