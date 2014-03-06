@@ -55,20 +55,15 @@ class TravisCI
         'Content-Type': 'application/json'
 
     req = https.request options, (res) ->
-      console.log "StatusCode:", res.statusCode
-      console.log "Headers:", res.headers
-
       data = ''
       res.on 'data', (chunk) ->
         data += chunk
 
       res.on 'end', ->
         json = JSON.parse(data)
-        console.log "Body:", json
         callback(null, json)
 
     req.on 'error', (err) ->
-      console.log "Error:", err
       callback(err, null)
 
     req.end()
