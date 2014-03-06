@@ -13,6 +13,18 @@ module.exports =
     return false unless repo?
     /github\.com:/i.test(repo.getOriginUrl())
 
+  # Internal: Get the repoistory's name with owner.
+  #
+  # Returns a string of the name with owner, or null if the origin URL doesn't
+  # exist.
+  getRepoNwo: ->
+    repo = atom.project.getRepo()
+    url  = repo.getOriginUrl()
+    return null unless url?
+    url.replace(/git@github\.com:/i, '')
+      .replace(/https:\/\/github\.com\//i, '')
+      .replace(/\.git/i, '')
+
   # Internal: Active the package and initializes any views.
   #
   # Returns nothing.
