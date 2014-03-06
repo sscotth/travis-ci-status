@@ -42,8 +42,7 @@ class TravisCI
   # Examples
   #
   #   travis.request 'GET', '/repos/tombell/travis-ci-status', (err, data) ->
-  #     return console.error err if err?
-  #     console.log data
+  #     ...
   #
   # Returns nothing.
   request: (method, path, callback) ->
