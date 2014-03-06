@@ -39,4 +39,4 @@ class TravisCiStatusView extends View
     if @hasParent()
       @detach()
     else
-      atom.workspaceView.append(this)
+      @attach()
