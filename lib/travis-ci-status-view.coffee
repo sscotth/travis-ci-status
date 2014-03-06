@@ -29,7 +29,6 @@ class TravisCiStatusView extends View
   #
   # Returns nothing.
   toggle: ->
-    console.log "TravisCiStatusView was toggled!"
     if @hasParent()
       @detach()
     else
