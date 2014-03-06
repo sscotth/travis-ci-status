@@ -30,14 +30,8 @@ describe "TravisCiStatus", ->
     it "attaches and then detaches the view", ->
       expect(atom.workspaceView.find('.travis-ci-status')).not.toExist()
 
-      # This is an activation event, triggering it will cause the package to be
-      # activated.
-      atom.workspaceView.trigger 'travis-ci-status:toggle'
-
       waitsForPromise ->
         atom.packages.activatePackage('travis-ci-status')
 
       runs ->
         expect(atom.workspaceView.find('.travis-ci-status')).toExist()
-        atom.workspaceView.trigger 'travis-ci-status:toggle'
-        expect(atom.workspaceView.find('.travis-ci-status')).not.toExist()
