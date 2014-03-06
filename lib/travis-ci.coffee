@@ -8,7 +8,7 @@ class TravisCI
   #
   # method   - The string HTTP method.
   # path     - The string API path.
-  # callback - The function callback that receives error and data arguments.
+  # callback - The function callback that takes error and data arguments.
   #
   # Examples
   #
@@ -37,7 +37,7 @@ class TravisCI
       res.on 'end', ->
         json = JSON.parse(data)
         console.log "Body:", json
-        callback(null. json)
+        callback(null, json)
 
     req.on 'error', (err) ->
       console.log "Error:", err
