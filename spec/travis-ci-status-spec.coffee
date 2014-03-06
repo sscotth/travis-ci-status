@@ -10,6 +10,11 @@ describe "TravisCiStatus", ->
   activationPromise = null
 
   beforeEach ->
+    spyOn(atom.project, 'getRepo').andReturn({
+      getOriginUrl: ->
+        'git@github.com:test/test.git'
+    })
+
     atom.workspaceView = new WorkspaceView
     activationPromise = atom.packages.activatePackage('travis-ci-status')
 
