@@ -39,8 +39,8 @@ class TravisCI
         console.log "Body:", json
         callback(null. json)
 
-    req.end()
-
     req.on 'error', (err) ->
       console.log "Error:", err
       callback(err, null)
+
+    req.end()
