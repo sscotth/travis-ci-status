@@ -25,9 +25,8 @@ module.exports =
   #
   # Returns nothing.
   deactivate: ->
-    return unless @isGitHubRepo()
     atom.travis = null
-    @travisCiStatusView.destroy()
+    @travisCiStatusView?.destroy()
 
   # Internal: Serialize each view state so it can be restored when activated.
   #
