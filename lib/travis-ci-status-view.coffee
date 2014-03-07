@@ -10,7 +10,7 @@ class TravisCiStatusView extends View
 
   # Internal: Initialize the view using serialized state if it exists.
   #
-  # serializedState - The object containing key/value pairs of state data.
+  # nwo - The string of the repo owner and name.
   initialize: (nwo) ->
     @nwo = nwo
     atom.workspaceView.command 'travis-ci-status:toggle', => @toggle()
