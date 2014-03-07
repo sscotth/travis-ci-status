@@ -3,7 +3,7 @@
   "main": "./lib/travis-ci-status",
   "version": "0.0.0",
   "description": "Add Travis CI status of the project to the Atom status bar. ",
-  "repository": "https://github.com/atom/travis-ci-status",
+  "repository": "https://github.com/tombell/travis-ci-status",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
