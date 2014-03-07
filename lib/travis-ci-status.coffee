@@ -1,9 +1,9 @@
-TravisCiStatusView = require './travis-ci-status-view'
+BuildStatusView = require './build-status-view'
 TravisCi = require './travis-ci'
 
 module.exports =
   # Internal: The main Travis-CI status view.
-  travisCiStatusView: null
+  buildStatusView: null
 
   # Internal: Get whether the project repository exists and is hosted on GitHub.
   #
@@ -33,7 +33,7 @@ module.exports =
     atom.travis = new TravisCi
 
     createStatusEntry = =>
-      @travisCiStatusView = new TravisCiStatusView(@getRepoNwo())
+      @buildStatusView = new BuildStatusView(@getRepoNwo())
 
     if atom.workspaceView.statusBar
       createStatusEntry()
@@ -46,7 +46,7 @@ module.exports =
   # Returns nothing.
   deactivate: ->
     atom.travis = null
-    @travisCiStatusView?.destroy()
+    @buildStatusView?.destroy()
 
   # Internal: Serialize each view state so it can be restored when activated.
   #

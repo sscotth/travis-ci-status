@@ -2,7 +2,7 @@
 
 module.exports =
 # Internal: The main view for displaying the status from Travis-CI.
-class TravisCiStatusView extends View
+class BuildStatusView extends View
   # Internal: Build up the HTML contents for the fragment.
   @content: ->
     @div class: 'travis-ci-status inline-block', =>
