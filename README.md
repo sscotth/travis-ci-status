@@ -9,7 +9,22 @@ Use the Atom package manager, which can be found in the Settings view or run
 
 ## Usage
 
-Coming soon.
+The Travis CI build status for your repository will be indicated by the
+clock-arrow icon in the status bar. The icon will appear orange when it's
+requesting the build status, green if the build was successful and red if the
+build failed.
+
+The build status is updated when the project is first opened in Atom and from
+then on whenever the "status" of the project repository changes. The handling of
+these events was borrowed from the `git-view.coffee` part of the `status-bar`
+package.
+
+## Coming Soon
+
+* Better icon for the status bar
+* A panel to show the build matrix for the last build
+
+Feel free to open and issue to discuss potential features to add or improve.
 
 ## Support
 
