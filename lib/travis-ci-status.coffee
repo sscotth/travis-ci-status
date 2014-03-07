@@ -28,12 +28,12 @@ module.exports =
   # Internal: Active the package and initializes any views.
   #
   # Returns nothing.
-  activate: (state) ->
+  activate: ->
     return unless @isGitHubRepo()
     atom.travis = new TravisCi
 
     createStatusEntry = =>
-      @travisCiStatusView = new TravisCiStatusView(state.travisCiStatusViewState)
+      @travisCiStatusView = new TravisCiStatusView(@getRepoNwo())
 
     if atom.workspaceView.statusBar
       createStatusEntry()

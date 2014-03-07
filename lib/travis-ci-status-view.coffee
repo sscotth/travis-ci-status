@@ -11,9 +11,12 @@ class TravisCiStatusView extends View
   # Internal: Initialize the view using serialized state if it exists.
   #
   # serializedState - The object containing key/value pairs of state data.
-  initialize: (serializeState) ->
+  initialize: (nwo) ->
+    @nwo = nwo
     atom.workspaceView.command 'travis-ci-status:toggle', => @toggle()
     @attach()
+    @subscribeToRepo()
+    # @update()
 
   # Internal: Serialize the state of this view.
   #
@@ -40,3 +43,51 @@ class TravisCiStatusView extends View
       @detach()
     else
       @attach()
+
+  # Internal: Get the active pane item path.
+  #
+  # Returns a string of the file path, else undefined.
+  getActiveItemPath: ->
+    @getActiveItem()?.getPath?()
+
+  # Internal: Get the active pane item.
+  #
+  # Returns an object for the pane item if it exists, else undefined.
+  getActiveItem: ->
+    atom.workspaceView.getActivePaneItem()
+
+  # Internal: Subcribe to events on the projects repository object.
+  #
+  # Returns nothing.
+  subscribeToRepo: =>
+    @unsubscribe(@repo) if @repo?
+    if repo = atom.project.getRepo()
+      @repo = repo
+      @subscribe repo, 'status-changed', (path, status) =>
+        @update() if path is @getActiveItemPath()
+      @subscribe repo, 'statuses-changed', @update
+
+  # Internal: Update the repository build status from Travis-CI.
+  #
+  # Returns nothing.
+  update: =>
+    @status.addClass('pending')
+    atom.travis.repo(@nwo, @repoStatus)
+
+  # Internal: Callback for the Travis-CI repository request, updates the build
+  # status.
+  #
+  # err  - The error object if there was an error, else null.
+  # data - The object of parsed JSON returned from the API.
+  #
+  # Returns nothing.
+  repoStatus: (err, data) =>
+    @status.removeClass('pending success fail')
+    return console.log "Error:", err if err?
+    return if data['files'] is 'not found'
+    return if data and data['last_build_started_at'] is null
+
+    if data and data['last_build_status'] is 0
+      @status.addClass('success')
+    else
+      @status.addClass('fail')
