@@ -26,7 +26,7 @@ package.
 * Better icon for the status bar
 * A panel to show the build matrix for the last build
 
-Feel free to open and issue to discuss potential features to add or improve.
+Feel free to open an issue to discuss potential features to add or improve.
 
 ## Support
 
