@@ -52,4 +52,3 @@ module.exports =
   #
   # Returns an object containing key/value pairs of view state data.
   serialize: ->
-    travisCiStatusViewState: @travisCiStatusView.serialize()
