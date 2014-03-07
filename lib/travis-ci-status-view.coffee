@@ -16,7 +16,6 @@ class TravisCiStatusView extends View
     atom.workspaceView.command 'travis-ci-status:toggle', => @toggle()
     @attach()
     @subscribeToRepo()
-    # @update()
 
   # Internal: Serialize the state of this view.
   #
