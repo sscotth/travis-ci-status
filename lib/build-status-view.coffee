@@ -8,7 +8,7 @@ class BuildStatusView extends View
     @div class: 'travis-ci-status inline-block', =>
       @span class: 'build-status icon icon-history', outlet: 'status', tabindex: -1, ''
 
-  # Internal: Initialize the view using serialized state if it exists.
+  # Internal: Initialize the view.
   #
   # nwo - The string of the repo owner and name.
   initialize: (nwo) ->
