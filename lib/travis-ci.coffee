@@ -1,7 +1,7 @@
 https = require 'https'
 
 module.exports =
-# Internal: Interacts with the Travis-CI API.
+# Internal: Interacts with the Travis CI API.
 class TravisCI
   # Internal: Request the most recent build status for the repo.
   #
@@ -32,7 +32,7 @@ class TravisCI
   build: (nwo, id, callback) ->
     @request('GET', "/repos/#{nwo}/builds/#{id}", callback)
 
-  # Internal: Make a request to the Travis-CI API, and return the response body
+  # Internal: Make a request to the Travis CI API, and return the response body
   # in the callback.
   #
   # method   - The string HTTP method.

@@ -2,7 +2,7 @@ BuildStatusView = require './build-status-view'
 TravisCi = require './travis-ci'
 
 module.exports =
-  # Internal: The main Travis-CI status view.
+  # Internal: The main Travis CI status view.
   buildStatusView: null
 
   # Internal: Get whether the project repository exists and is hosted on GitHub.
