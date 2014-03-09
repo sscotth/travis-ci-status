@@ -1,3 +1,5 @@
+{spawn} = require 'child_process'
+
 BuildMatrixView = require './build-matrix-view'
 BuildStatusView = require './build-status-view'
 TravisCi = require './travis-ci'
@@ -29,12 +31,23 @@ module.exports =
       .replace(/https:\/\/github\.com\//i, '')
       .replace(/\.git/i, '')
 
+  # Internal: Open the project on Travis CI in the default browser.
+  #
+  # Returns nothing.
+  openOnTravis: ->
+    nwo = @getNameWithOwner()
+    url = "https://travis-ci.org/#{nwo}"
+    spawn('open', [url])
+
   # Internal: Active the package and initializes any views.
   #
   # Returns nothing.
   activate: ->
     return unless @isGitHubRepo()
     atom.travis = new TravisCi
+
+    atom.workspaceView.command 'travis-ci-status:open-on-travis', =>
+      @openOnTravis()
 
     createStatusEntry = =>
       nwo = @getNameWithOwner()
