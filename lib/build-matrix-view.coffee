@@ -19,7 +19,7 @@ class BuildMatrixView extends View
   initialize: (@nwo) ->
     @matrix.css('font-size', "#{atom.config.get('editor.fontSize')}px")
 
-    atom.workspaceView.command "travis-ci-status:toggle-build-matrix", =>
+    atom.workspaceView.command 'travis-ci-status:toggle-build-matrix', =>
       @toggle()
 
   # Internal: Serialize the state of this view.
