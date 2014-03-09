@@ -71,6 +71,7 @@ class BuildMatrixView extends View
     duration = data['duration'].toString()
 
     @title.text("Build #{number} took #{duration.formattedDuration()}")
+    @builds.empty()
     @addBuild(build) for build in data['matrix']
 
   # Internal: Add the build details to the builds list.
