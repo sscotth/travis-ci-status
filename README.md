@@ -21,6 +21,14 @@ then on whenever the "status" of the project repository changes. The handling of
 these events was borrowed from the `git-view.coffee` part of the `status-bar`
 package.
 
+### Commands
+
+The following commands are available for users to keymap.
+
+* `travis-ci-status:toggle` - Toggle the status bar entry
+* `travis-ci-status:toggle-build-matrix` - Toggle the build matrix panel
+* `travis-ci-status:open-on-travis` - Open the project on the Travis CI site
+
 ## Coming Soon
 
 * Better icon for the status bar
