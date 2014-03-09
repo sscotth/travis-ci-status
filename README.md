@@ -1,6 +1,6 @@
 # Travis CI Status Package
 
-Add Travis CI status of the project to the Atom status bar. **WIP**
+Add Travis CI status of the project to the Atom status bar.
 
 ![Travis CI Status](https://raw.github.com/tombell/travis-ci-status/master/screenshots/travis-ci-status.png)
 
