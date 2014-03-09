@@ -1,8 +1,12 @@
+BuildMatrixView = require './build-matrix-view'
 BuildStatusView = require './build-status-view'
 TravisCi = require './travis-ci'
 
 module.exports =
-  # Internal: The main Travis CI status view.
+  # Internal: The build matrix bottom panel view.
+  buildMatrixView: null
+
+  # Internal: The build status status bar entry view.
   buildStatusView: null
 
   # Internal: Get whether the project repository exists and is hosted on GitHub.
@@ -17,7 +21,7 @@ module.exports =
   #
   # Returns a string of the name with owner, or null if the origin URL doesn't
   # exist.
-  getRepoNwo: ->
+  getNameWithOwner: ->
     repo = atom.project.getRepo()
     url  = repo.getOriginUrl()
     return null unless url?
@@ -33,7 +37,9 @@ module.exports =
     atom.travis = new TravisCi
 
     createStatusEntry = =>
-      @buildStatusView = new BuildStatusView(@getRepoNwo())
+      nwo = @getNameWithOwner()
+      @buildMatrixView = new BuildMatrixView(nwo)
+      @buildStatusView = new BuildStatusView(nwo, @buildMatrixView)
 
     if atom.workspaceView.statusBar
       createStatusEntry()
