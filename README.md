@@ -21,6 +21,13 @@ then on whenever the "status" of the project repository changes. The handling of
 these events was borrowed from the `git-view.coffee` part of the `status-bar`
 package.
 
+### Travis Pro
+
+You are able to use this with Travis Pro if you enable it in the settings view.
+You will also need to generate and set a
+[GitHub API token](https://github.com/settings/tokens/new) to be able to
+authenticate with the Travis Pro API.
+
 ### Commands
 
 The following commands are available for users to keymap.
