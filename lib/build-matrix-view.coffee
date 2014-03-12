@@ -41,7 +41,7 @@ class BuildMatrixView extends View
 
   # Internal: Toggle the visibility of the view.
   #
-  # Returns nothing.
+  # Returns nothing.
   toggle: ->
     if @hasParent()
       @detach()
@@ -55,7 +55,7 @@ class BuildMatrixView extends View
   # Returns nothing.
   update: (buildId) =>
     @title.text('Fetching build matrix...')
-    atom.travis.build(@nwo, buildId, @buildMatrix)
+    atom.travis.builds(id: buildId, @buildMatrix)
 
   # Internal: Callback for the Travis CI build status, updates the build matrix.
   #
@@ -67,12 +67,12 @@ class BuildMatrixView extends View
     @matrix.removeClass('pending success fail')
     return console.log "Error:", err if err?
 
-    number = data['number']
-    duration = data['duration'].toString()
+    number = data['build']['number']
+    duration = data['build']['duration'].toString()
 
     @title.text("Build #{number} took #{duration.formattedDuration()}")
     @builds.empty()
-    @addBuild(build) for build in data['matrix']
+    @addBuild(build) for build in data['jobs']
 
   # Internal: Add the build details to the builds list.
   #

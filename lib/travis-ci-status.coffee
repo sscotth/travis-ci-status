@@ -1,10 +1,16 @@
 {spawn} = require 'child_process'
 
+TravisCi = require 'travis-ci'
+
 BuildMatrixView = require './build-matrix-view'
 BuildStatusView = require './build-status-view'
-TravisCi = require './travis-ci'
 
 module.exports =
+  # Internal: The default configuration properties for the package.
+  configDefaults:
+    useTravisCiPro: false
+    personalAccessToken: '<Your personal GitHub access token>'
+
   # Internal: The build matrix bottom panel view.
   buildMatrixView: null
 
@@ -16,7 +22,11 @@ module.exports =
   # Returns nothing.
   activate: ->
     return unless @isGitHubRepo()
-    atom.travis = new TravisCi
+
+    atom.travis = new TravisCi({
+      version: '2.0.0',
+      pro: atom.config.get('travis-ci-status.useTravisCiPro')
+    })
 
     atom.workspaceView.command 'travis-ci-status:open-on-travis', =>
       @openOnTravis()
@@ -34,7 +44,7 @@ module.exports =
 
   # Internal: Deactive the package and destroys any views.
   #
-  # Returns nothing.
+  # Returns nothing.
   deactivate: ->
     atom.travis = null
     @buildStatusView?.destroy()
@@ -51,7 +61,7 @@ module.exports =
   isGitHubRepo: ->
     repo = atom.project.getRepo()
     return false unless repo?
-    /github\.com:/i.test(repo.getOriginUrl())
+    /(.)*github\.com/i.test(repo.getOriginUrl())
 
   # Internal: Get the repoistory's name with owner.
   #
@@ -61,14 +71,19 @@ module.exports =
     repo = atom.project.getRepo()
     url  = repo.getOriginUrl()
     return null unless url?
-    url.replace(/git@github\.com:/i, '')
+    url.replace(/(.)*@github\.com/i, '')
       .replace(/https:\/\/github\.com\//i, '')
-      .replace(/\.git/i, '')
+      .replace(/\.git/i, '').substr(1)
 
   # Internal: Open the project on Travis CI in the default browser.
   #
   # Returns nothing.
   openOnTravis: ->
     nwo = @getNameWithOwner()
-    url = "https://travis-ci.org/#{nwo}"
+    domain = if atom.config.get('travis-ci-status.useTravisCiPro')
+      'magnum.travis-ci.com'
+    else
+      'travis-ci.org'
+
+    url = "https://#{domain}/#{nwo}"
     spawn('open', [url])

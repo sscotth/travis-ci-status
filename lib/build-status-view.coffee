@@ -37,7 +37,7 @@ class BuildStatusView extends View
 
   # Internal: Toggle the visibility of the view.
   #
-  # Returns nothing.
+  # Returns nothing.
   toggle: ->
     if @hasParent()
       @detach()
@@ -61,6 +61,7 @@ class BuildStatusView extends View
   # Returns nothing.
   subscribeToRepo: =>
     @unsubscribe(@repo) if @repo?
+
     if repo = atom.project.getRepo()
       @repo = repo
       @subscribe repo, 'status-changed', (path, status) =>
@@ -72,8 +73,18 @@ class BuildStatusView extends View
   # Returns nothing.
   update: =>
     return unless @hasParent()
+
     @status.addClass('pending')
-    atom.travis.repo(@nwo, @repoStatus)
+    details = @nwo.split '/'
+
+    updateRepo = =>
+      atom.travis.repos(owner_name: details[0], name: details[1], @repoStatus)
+
+    if atom.config.get('travis-ci-status.useTravisCiPro')
+      token = atom.config.get('travis-ci-status.personalAccessToken')
+      atom.travis.authenticate(github_token: token, updateRepo)
+    else
+      updateRepo()
 
   # Internal: Callback for the Travis CI repository request, updates the build
   # status.
@@ -83,12 +94,13 @@ class BuildStatusView extends View
   #
   # Returns nothing.
   repoStatus: (err, data) =>
-    @status.removeClass('pending success fail')
     return console.log "Error:", err if err?
     return if data['files'] is 'not found'
-    return if data and data['last_build_started_at'] is null
 
-    if data and data['last_build_status'] is 0
+    data = data['repo']
+    @status.removeClass('pending success fail')
+
+    if data and data['last_build_state'] is "passed"
       @matrix.update(data['last_build_id'])
       @status.addClass('success')
     else
