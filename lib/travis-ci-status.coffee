@@ -1,3 +1,5 @@
+fs = require 'fs'
+path = require 'path'
 {spawn} = require 'child_process'
 
 TravisCi = require 'travis-ci'
@@ -21,7 +23,7 @@ module.exports =
   #
   # Returns nothing.
   activate: ->
-    return unless @isGitHubRepo()
+    return unless @isTravisProject() and @isGitHubRepo()
 
     atom.travis = new TravisCi({
       version: '2.0.0',
@@ -74,6 +76,14 @@ module.exports =
     url.replace(/(.)*@github\.com/i, '')
       .replace(/https:\/\/github\.com\//i, '')
       .replace(/\.git/i, '').substr(1)
+
+  # Internal: Check there is a .travis.yml configuration file.
+  #
+  # Returns true if there is a .travis.yml configuration file, else false.
+  isTravisProject: ->
+    return false unless atom.project.path?
+    travisConf = path.join(atom.project.path, '.travis.yml')
+    fs.existsSync(travisConf)
 
   # Internal: Open the project on Travis CI in the default browser.
   #
