@@ -73,9 +73,15 @@ module.exports =
     repo = atom.project.getRepo()
     url  = repo.getOriginUrl()
     return null unless url?
-    url.replace(/(.)*@github\.com/i, '')
-      .replace(/https:\/\/github\.com\//i, '')
-      .replace(/\.git/i, '').substr(1)
+    # git@github.com:owner/name.git
+    # git@github.com:owner/name
+    # https://github.com/owner/name.git
+    # https://github.com/owner/name
+    url.replace(/github.com(\/)?/i, '')
+      .replace(/^git@/i, '')
+      .replace(/^http(s)?:\/\//i, '')
+      .replace(/:/i, '')
+      .replace(/.git$/i, '')
 
   # Internal: Check there is a .travis.yml configuration file.
   #
