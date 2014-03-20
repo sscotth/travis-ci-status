@@ -97,5 +97,4 @@ module.exports =
     else
       'travis-ci.org'
 
-    url = "https://#{domain}/#{nwo}"
-    spawn('open', [url])
+    spawn('open', [ "https://#{domain}/#{nwo}" ])
