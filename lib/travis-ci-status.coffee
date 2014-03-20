@@ -73,10 +73,6 @@ module.exports =
     repo = atom.project.getRepo()
     url  = repo.getOriginUrl()
     return null unless url?
-    # git@github.com:owner/name.git
-    # git@github.com:owner/name
-    # https://github.com/owner/name.git
-    # https://github.com/owner/name
     url.replace(/github.com(\/)?/i, '')
       .replace(/^git@/i, '')
       .replace(/^http(s)?:\/\//i, '')
