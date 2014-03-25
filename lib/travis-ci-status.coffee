@@ -73,10 +73,8 @@ module.exports =
     repo = atom.project.getRepo()
     url  = repo.getOriginUrl()
     return null unless url?
-    url.replace(/github.com(\/)?/i, '')
-      .replace(/^git@/i, '')
-      .replace(/^http(s)?:\/\//i, '')
-      .replace(/:/i, '')
+    url.replace(/^https?:\/\/[^\/]+\//i, '')
+      .replace(/^git@github\.com:/i, '')
       .replace(/.git$/i, '')
 
   # Internal: Check there is a .travis.yml configuration file.
@@ -92,7 +90,7 @@ module.exports =
   # Returns nothing.
   openOnTravis: ->
     nwo = @getNameWithOwner()
-    domain = if atom.config.get('travis-ci-status.useTravisCiPro')
+    domain = if atom.travis.pro
       'magnum.travis-ci.com'
     else
       'travis-ci.org'

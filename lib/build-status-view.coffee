@@ -1,5 +1,7 @@
 {View} = require 'atom'
 
+TravisCi = require 'travis-ci'
+
 module.exports =
 # Internal: The main view for displaying the status from Travis CI.
 class BuildStatusView extends View
@@ -80,7 +82,7 @@ class BuildStatusView extends View
     updateRepo = =>
       atom.travis.repos(owner_name: details[0], name: details[1], @repoStatus)
 
-    if atom.config.get('travis-ci-status.useTravisCiPro')
+    if atom.travis.pro
       token = atom.config.get('travis-ci-status.personalAccessToken')
       atom.travis.authenticate(github_token: token, updateRepo)
     else
@@ -94,6 +96,13 @@ class BuildStatusView extends View
   #
   # Returns nothing.
   repoStatus: (err, data) =>
+    if atom.travis.pro and err?
+      atom.travis = new TravisCi({
+        version: '2.0.0',
+        pro: false
+      })
+      return @update()
+
     return console.log "Error:", err if err?
     return if data['files'] is 'not found'
 
