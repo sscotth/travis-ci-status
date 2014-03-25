@@ -7,7 +7,7 @@ module.exports =
 class BuildMatrixView extends View
   # Internal: Build up the HTML contents for the fragment.
   @content: ->
-    @div class: 'travis-ci-status tool-panel panel-bottom padded ', tabIndex: -1, =>
+    @div class: 'travis-ci-status tool-panel panel-bottom padded native-key-bindings', tabIndex: -1, =>
       @div class: 'build-matrix block', =>
         @div class: 'message', outlet: 'matrix', =>
           @p class: 'matrix-title', outlet: 'title', 'No build matrix fetched'
