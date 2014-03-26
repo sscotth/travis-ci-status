@@ -88,6 +88,16 @@ class BuildStatusView extends View
     else
       updateRepo()
 
+  # Internal: Fallback to non-pro Travis CI.
+  #
+  # Returns nothing.
+  failback: ->
+    atom.travis = new TravisCi({
+      version: '2.0.0',
+      pro: false
+    })
+    @update()
+
   # Internal: Callback for the Travis CI repository request, updates the build
   # status.
   #
@@ -96,12 +106,7 @@ class BuildStatusView extends View
   #
   # Returns nothing.
   repoStatus: (err, data) =>
-    if atom.travis.pro and err?
-      atom.travis = new TravisCi({
-        version: '2.0.0',
-        pro: false
-      })
-      return @update()
+    return @fallback() if atom.travis.pro and err?
 
     return console.log "Error:", err if err?
     return if data['files'] is 'not found'
