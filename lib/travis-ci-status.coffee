@@ -19,30 +19,12 @@ module.exports =
   # Internal: The build status status bar entry view.
   buildStatusView: null
 
-  # Internal: Active the package and initializes any views.
+  # Internal: Active the package.
   #
   # Returns nothing.
   activate: ->
     return unless @isTravisProject() and @isGitHubRepo()
-
-    atom.travis = new TravisCi({
-      version: '2.0.0',
-      pro: atom.config.get('travis-ci-status.useTravisCiPro')
-    })
-
-    atom.workspaceView.command 'travis-ci-status:open-on-travis', =>
-      @openOnTravis()
-
-    createStatusEntry = =>
-      nwo = @getNameWithOwner()
-      @buildMatrixView = new BuildMatrixView(nwo)
-      @buildStatusView = new BuildStatusView(nwo, @buildMatrixView)
-
-    if atom.workspaceView.statusBar
-      createStatusEntry()
-    else
-      atom.packages.once 'activated', ->
-        createStatusEntry()
+    @init()
 
   # Internal: Deactive the package and destroys any views.
   #
@@ -82,6 +64,30 @@ module.exports =
     return false unless atom.project.path?
     travisConf = path.join(atom.project.path, '.travis.yml')
     fs.existsSync(travisConf)
+
+  # Internal: initializes any views.
+  #
+  # Returns nothing
+  init: ->
+    atom.travis = new TravisCi({
+      version: '2.0.0',
+      pro: atom.config.get('travis-ci-status.useTravisCiPro')
+    })
+
+    atom.workspaceView.command 'travis-ci-status:open-on-travis', =>
+      @openOnTravis()
+
+    createStatusEntry = =>
+      nwo = @getNameWithOwner()
+      @buildMatrixView = new BuildMatrixView(nwo)
+      @buildStatusView = new BuildStatusView(nwo, @buildMatrixView)
+
+    if atom.workspaceView.statusBar
+      createStatusEntry()
+    else
+      atom.packages.once 'activated', ->
+        createStatusEntry()
+    null
 
   # Internal: Open the project on Travis CI in the default browser.
   #
