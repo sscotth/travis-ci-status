@@ -23,8 +23,7 @@ module.exports =
   #
   # Returns nothing.
   activate: ->
-    return unless @isTravisProject() and @isGitHubRepo()
-    @init()
+    @isGitHubRepo() and @isTravisProject((e) => e and @init())
 
   # Internal: Deactive the package and destroys any views.
   #
@@ -58,12 +57,14 @@ module.exports =
     /([^\/:]+)\/([^\/]+)$/.exec(url.replace(/\.git$/, ''))[0]
 
   # Internal: Check there is a .travis.yml configuration file.
+  # Bool result is passed in callback.
   #
-  # Returns true if there is a .travis.yml configuration file, else false.
-  isTravisProject: ->
-    return false unless atom.project.path?
-    travisConf = path.join(atom.project.path, '.travis.yml')
-    fs.existsSync(travisConf)
+  # Returns nothing.
+  isTravisProject: (callback) ->
+    return unless callback instanceof Function
+    return callback(false) unless atom.project.path?
+    conf = path.join(atom.project.path, '.travis.yml')
+    fs.exists(conf, callback)
 
   # Internal: initializes any views.
   #
