@@ -1,6 +1,6 @@
 fs = require 'fs'
 path = require 'path'
-{spawn} = require 'child_process'
+shell = require 'shell'
 
 TravisCi = require 'travis-ci'
 
@@ -93,4 +93,4 @@ module.exports =
     else
       'travis-ci.org'
 
-    spawn('open', [ "https://#{domain}/#{nwo}" ])
+    shell.openExternal("https://#{domain}/#{nwo}")
