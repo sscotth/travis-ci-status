@@ -17,6 +17,8 @@ class BuildStatusView extends View
   initialize: (@nwo, @matrix) ->
     atom.workspaceView.command 'travis-ci-status:toggle', =>
       @toggle()
+    this.on 'click', ->
+      atom.workspaceView.trigger 'travis-ci-status:toggle-build-matrix'
     @attach()
     @subscribeToRepo()
 
